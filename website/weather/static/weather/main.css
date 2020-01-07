@@ -1,0 +1,21 @@
+body {
+    background: #fffffa;
+    color: #333333;
+    margin-top: 2rem;
+}
+
+.site-header .navbar-nav .nav-link {
+    color: orange;
+  }
+
+.site-header .navbar-nav .nav-link.active {
+    font-weight: 500;
+}
+
+.site-header .navbar-nav .nav-link:hover {
+    color: red;
+}
+.site-header .navbar-nav .nav-link:active {
+    color: white;
+}
+
