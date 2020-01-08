@@ -23,11 +23,11 @@ class CityDataManager(models.Manager):
                 tlak = float(tlak[:-1])
             else: 
                 pass
+            
             if tlak == '-':
                     tlak = 0
             else:
-                pass
-            
+                pass            
             
             if temper[0] == '-':
                     temper = -float(temper[1:])

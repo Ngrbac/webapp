@@ -12,13 +12,20 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 #from __future__ import absolute_import, unicode_literals
 import os
 import django
+from celery.schedules import crontab
 
 CELERY_BROKER_URL ='amqp://localhost//'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_CACHE_BACKEND = 'django-cache'
-#CELERY_TIMEZONE = 'Europe/Zagreb'
+CELERY_TIMEZONE = 'Europe/Zagreb'
+CELERY_BEAT_SCHEDULE = {
+    'data-refresh-1-hour': {
+        'task': 'update',
+        'schedule': crontab(minute=0, hour='*/1')
+    },
+}
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

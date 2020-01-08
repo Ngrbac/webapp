@@ -1,10 +1,11 @@
 from __future__ import absolute_import, unicode_literals
-from celery import shared_task
 import bs4
 import requests
-from weather.models import City, CityData
+from .models import City, CityData
+from celery import Celery
+from website.celery import app
 
-@shared_task    
+@app.task(name='update')    
 def weather_update():
     url = "https://vrijeme.hr/hrvatska1_n.xml"
     response = requests.request("GET", url).content
@@ -27,4 +28,4 @@ def weather_update():
                 city.podatci.vrijeme.contents[0],
                 soup.datumtermin.datum.contents[0],
                 soup.datumtermin.termin.contents[0],
-            )               
+            )
