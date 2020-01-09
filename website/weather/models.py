@@ -52,7 +52,7 @@ class CityDataManager(models.Manager):
             #return city_data
         except:
             with open('log.txt', 'a') as file:
-                file.write(f'{datetime.datetime.now}: failed update.')
+                file.write(f'{datetime.datetime.now}: failed update. \n')
             pass
     
 class City(models.Model):

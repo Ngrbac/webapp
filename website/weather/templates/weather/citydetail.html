@@ -1,0 +1,26 @@
+{% extends "weather/base.html" %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12" >
+                <div class="jumbotron" style="margin:2rem">
+                    <h2>
+                        {{ city.gradime }}                                                                      
+                    </h2>
+                    <h6 class="text-muted">
+                        Podaci izmjereni: {{ city.citydata_set.last.datum | date:"d.m.Y." }}, u {{ city.citydata_set.last.sat }} sati.
+                    </h6> 
+                    <hr>
+                    <ul>
+                        <li>Temperatura: {{ city.citydata_set.last.temper }}°C</li>
+                        <li>Vlažnost: {{ city.citydata_set.last.vlaga }}% </li>
+                        <li>Tlak: {{ city.citydata_set.last.tlak }} </li>
+                        <li>Tendencija tlaka: {{ city.citydata_set.last.tlaktend }} </li>
+                        <li>Vjetar: {{ city.citydata_set.last.vjetarsmjer }}, snage {{ city.citydata_set.last.vjetarbrzina }} čvora</li>
+                    </ul>  
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

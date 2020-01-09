@@ -1,0 +1,50 @@
+{% extends "weather/base.html" %}
+
+{% block content %}
+    {% for city in cities %}
+        <div class="col-md-4 mr-auto">
+            <div class="card" style="margin-top:3rem">
+                <h5 class="card-header" style="background-color:#facfaf">
+                    {{ city.gradime }}  <a class="text-muted" style="font-size:75%" href="{% url 'city-detail' city.id %}">Details</a>
+                </h5>
+                <div class="card-body">
+                    <p class="card-text">
+                        <ul>                            
+                            <li>Zemljopisna širina: {{ city.lat }}</li>
+                            <li>Zemljopisna dužina: {{ city.lat }}</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>        
+        </div>
+    {% endfor %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 fixed-bottom">
+                {% if is_paginated %}
+                    <nav>
+                        <ul class="pagination justify-content-center">
+                            {% if page_obj.has_previous %}
+                                <li ><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                            {% else %}
+                                <li class="disabled"><span>&laquo;</span></li>
+                            {% endif %}
+                            {% for i in paginator.page_range %}
+                                {% if page_obj.number == i %}
+                                    <li class="current">{{ i }} <span class="sr-only">(current)</span></li>
+                                {% else %}
+                                    <li><a href="?page={{ i }}">{{ i }}</a></li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                                <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                            {% else %}
+                                <li class="disabled"><span>&raquo;</span></li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
