@@ -20,10 +20,11 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_BACKEND = 'django-db'
 CELERY_CACHE_BACKEND = 'django-cache'
 CELERY_TIMEZONE = 'Europe/Zagreb'
+#raspored upita na DHMZ
 CELERY_BEAT_SCHEDULE = {
-    'data-refresh-1-hour': {
+    'data-refresh-15min': {
         'task': 'update',
-        'schedule': crontab(minute=0, hour='*/1')
+        'schedule': crontab(minute='*/15')
     },
 }
 
