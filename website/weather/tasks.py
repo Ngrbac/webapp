@@ -1,11 +1,12 @@
 from __future__ import absolute_import, unicode_literals
-import bs4
-import requests
+import bs4          #za scraping podataka
+import requests     #za dohvat xmla
 from .models import City, CityData
-from celery import Celery
+from celery import Celery   #za asinkrono obavljanje zadataka
 from website.celery import app
-import datetime
+import datetime     #prilagođavanje formata datuma
 
+#dohvat podataka za bazu o vremenu
 @app.task(name='update')    
 def weather_update():    
     url = "https://vrijeme.hr/hrvatska1_n.xml"
@@ -19,7 +20,7 @@ def weather_update():
     
     #provjera postoji li zapis istog termina
     if CityData.objects.filter(datum=date,sat=time):
-        return 'Data already exists. Trying again later.'
+        return '\n Data already exists. Trying again later.'        #string kao status info o celery zadatku
     else:             
         for city in cities:
             #manager prvo provjeri ima li grad, ako ne doda ga
@@ -41,5 +42,5 @@ def weather_update():
                     soup.datumtermin.datum.contents[0],
                     soup.datumtermin.termin.contents[0],
                 )
-        return 'Data update started.'
+        return '\n Data update started.'    #string kao status info o celery zadatku
         

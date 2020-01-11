@@ -1,7 +1,15 @@
+from .models import City, CityData
+from .serializers import  CityCleanSerializer, DataSerializer, CityDataSerializer
+import requests
 from django.shortcuts import render
+
+from rest_framework import viewsets, permissions
+from rest_framework.renderers import TemplateHTMLRenderer, JSONRenderer
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
 from django.views.generic import ListView
 from django.views.generic.detail import DetailView
-from .models import City, CityData
 
 def weatherView(request):    
     return render(request, template_name='weather/base.html')
@@ -16,8 +24,29 @@ class CityListView(ListView):
 class CityDetail(DetailView):
     model = City
     template_name = 'weather/citydetail.html'
-    context_object_name = 'city'
+    context_object_name = 'city'  
+
+class CityList(APIView):
+    renderer_classes = [TemplateHTMLRenderer, JSONRenderer]
+    template_name = 'citylist.html'
     
-class CityDataDetail(DetailView):
-    model = CityData
-    context_object_name = 'citydata'    
+    def get(self, request):
+        queryset = City.objects.all()
+        serializer = CityCleanSerializer(queryset, many=True)
+        return Response({'cities': serializer.data})
+
+## api    
+class DataView(viewsets.ModelViewSet):
+    queryset = CityData.objects.all()
+    serializer_class  = DataSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)       
+    
+class CityDataView(viewsets.ModelViewSet):  
+    queryset = City.objects.all()
+    serializer_class  = CityDataSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)  
+    
+class CityCleanView(viewsets.ModelViewSet):
+    queryset = City.objects.all()
+    serializer_class  = CityCleanSerializer
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)

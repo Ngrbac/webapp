@@ -1,11 +1,12 @@
 {% extends "weather/base.html" %}
+{% load rest_framework %}
 
 {% block content %}
     {% for city in cities %}
         <div class="col-md-4 mr-auto">
             <div class="card" style="margin-top:3rem">
                 <h5 class="card-header" style="background-color:#facfaf">
-                    {{ city.gradime }}  <a class="text-muted" style="font-size:75%" href="{% url 'city-detail' city.id %}">Details</a>
+                    {{ city.status }}  <a class="text-muted" style="font-size:75%" href="{% url 'city-detail' city.id %}">Details</a>
                 </h5>
                 <div class="card-body">
                     <p class="card-text">

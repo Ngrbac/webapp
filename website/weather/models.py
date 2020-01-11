@@ -3,9 +3,12 @@ import datetime
 
 class CityManager(models.Manager):    
     def create_city(self, gradime, lat, lon):
-        try:        
+        
+        try: 
+            #provjera postoji li grad       
             if self.get_city(gradime):
                 return self.get_city(gradime).first()
+            #spremanje novog grada
             else:
                 city = City.objects.create(gradime=gradime, lat=lat, lon=lon)
                 return city
@@ -19,6 +22,7 @@ class CityManager(models.Manager):
 class CityDataManager(models.Manager):    
     def add_city_data(self, grad, temper, vlaga, tlak, tlaktend, vjetarsmjer, vjetarbrzina, vrijeme, datum, sat):
         try:
+            #niz provjera radi anomalija na izvoru podataka + rješavanje problema nedostajućih vrijednosti
             if tlak[-1] == '*':
                 tlak = float(tlak[:-1])
             else: 
@@ -47,15 +51,17 @@ class CityDataManager(models.Manager):
             else:
                 pass
             
+            #kreiranje novog seta podataka za pojedini grad
             city_data = self.create(grad=grad, temper=temper, vlaga=vlaga, tlak=tlak, tlaktend=tlaktend, 
                                     vjetarsmjer=vjetarsmjer, vjetarbrzina=vjetarbrzina, vrijeme=vrijeme, datum=datum, sat=sat)
-            #return city_data
+            
         except:
             with open('log.txt', 'a') as file:
                 file.write(f'{datetime.datetime.now}: failed update. \n')
             pass
     
 class City(models.Model):
+    #atributi gradova
     gradime = models.CharField(max_length=50)
     lat = models.DecimalField(max_digits=5, decimal_places=3)
     lon = models.DecimalField(max_digits=5, decimal_places=3)   
@@ -65,10 +71,14 @@ class City(models.Model):
         self.lat = lat
         self.lon = lon
         return self
+    
+    def __str__(self):
+        return self.gradime
 
     objects = CityManager()
     
 class CityData(models.Model):
+    #atributi podataka
     grad = models.ForeignKey(City, on_delete=models.CASCADE)
     temper = models.DecimalField(max_digits=5, decimal_places=2)
     vlaga = models.IntegerField(3)

@@ -5,13 +5,13 @@
         <div class="col-md-4 mr-auto">
             <div class="card" style="margin-top:3rem">
                 <h5 class="card-header" style="background-color:#facfaf">
-                    {{ city.gradime }}  <a class="text-muted" style="font-size:75%" href="{% url 'city-detail' city.id %}">Details</a>
+                    {{ cities.gradime }}  <a class="text-muted" style="font-size:75%" href="{% url 'city-detail' city.id %}">Details</a>
                 </h5>
                 <div class="card-body">
                     <p class="card-text">
                         <ul>                            
-                            <li>Zemljopisna širina: {{ city.lat }}</li>
-                            <li>Zemljopisna dužina: {{ city.lon }}</li>
+                            <li>Zemljopisna širina: {{ cities.lat }}</li>
+                            <li>Zemljopisna dužina: {{ cities.lon }}</li>
                         </ul>
                     </p>
                 </div>
